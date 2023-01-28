@@ -1,0 +1,17 @@
+.field {
+  display: grid;
+  width: min-content;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+
+  grid-gap: 10px 10px;
+}
+
+.char {
+  --size: 20vw;
+
+  /* font-size: var(--size); */
+  height: var(--size);
+  width: var(--size);
+  text-align: center;
+}
