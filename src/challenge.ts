@@ -17,38 +17,38 @@ export type Challenge = [
   string
 ];
 
-export function emptyChallenge(): Challenge {
-  return new Array(16).fill("") as Challenge;
+export function challengeFromString(challengeString: string): Challenge {
+  return challengeString.split("") as Challenge;
 }
 
-export function isComplete(challenge: Challenge) {
-  return challenge.every((char) => char !== "");
-}
+export function solveForList(
+  challenge: Challenge,
+  wordlist: string[]
+): string[] {
+  console.log("Solving with " + wordlist.length + " words");
+  return wordlist
+    .filter((word) => {
+      const firstChar = word[0];
 
-export function solveList(challenge: Challenge, wordlist: string[]): string[] {
-  return wordlist.filter((word) => {
-    console.log("looking for", word);
-    const firstChar = word[0];
+      const firstCharPositions = challenge
+        .map((char, idx) => {
+          if (char.toLowerCase() === firstChar.toLowerCase()) {
+            return idx;
+          }
+        })
+        .filter((position) => position !== undefined) as number[];
 
-    const firstCharPositions = challenge
-      .map((char, idx) => {
-        if (char.toLowerCase() === firstChar.toLowerCase()) {
-          return idx;
+      for (const firstCharPosition of firstCharPositions) {
+        const nextChallenge = [...challenge] as Challenge;
+        nextChallenge[firstCharPosition] = "";
+        if (solveChar(nextChallenge, word.slice(1), firstCharPosition)) {
+          return true;
         }
-      })
-      .filter((position) => position !== undefined) as number[];
-
-    for (const firstCharPosition of firstCharPositions) {
-      console.log("trying first position", firstCharPosition);
-      const nextChallenge = [...challenge] as Challenge;
-      nextChallenge[firstCharPosition] = "";
-      if (solveChar(nextChallenge, word.slice(1), firstCharPosition)) {
-        return true;
       }
-    }
 
-    return false;
-  });
+      return false;
+    })
+    .sort((a, b) => b.length - a.length);
 }
 
 function getNeighbouringPositions(currentPosition: number): number[] {
@@ -104,15 +104,6 @@ function solveChar(
   const nextChar = remainingWord[0];
 
   const neighboursPositions = getNeighbouringPositions(currentPosition);
-
-  console.log(
-    "remaining word",
-    remainingWord,
-    "next char",
-    nextChar,
-    "neighbours",
-    neighboursPositions
-  );
 
   for (const neighbourPosition of neighboursPositions) {
     if (
