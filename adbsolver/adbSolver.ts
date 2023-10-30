@@ -2,9 +2,9 @@ import { readFile } from "fs/promises";
 import { createPrompt } from "bun-promptx";
 
 const startX = 0xd6;
-const startY = 0x4bb;
-const endX = 0x363;
-const endY = 0x751;
+const startY = 0x4c6;
+const endX = 0x35c;
+const endY = 0x741;
 const step = (endX - startX) / 3;
 
 const device = "17301JEC201127";
@@ -52,7 +52,8 @@ async function sleep(ms: number) {
 async function pattern(points: number[][]) {
   points = points.map(([x, y]) => [x * step + startX, y * step + startY]);
 
-  const totalLength = 600 - (10 - points.length) * 15;
+  //   const totalLength = 600 - (10 - points.length) * 15;
+  const totalLength = points.length * 70;
 
   const stepLength = Math.floor(totalLength / points.length);
 
@@ -113,7 +114,7 @@ Bun.serve({
 
 while (remainingWords.length > 0) {
   const word = remainingWords[0];
-  const retryAmount = word.word.length >= 8 ? 2 : 1;
+  const retryAmount = word.word.length >= 6 ? 2 : 1;
   for (let i = 0; i < retryAmount; i++) {
     await pattern(word.path);
     await sleep(400);
