@@ -8,6 +8,7 @@ import {
   mergeDictionaries,
 } from "./dictionaries";
 import { challengeFromString, solveForList } from "./challenge";
+import { solveForListWithPath } from "./challengePattern";
 
 const app = express();
 app.use(morgan("dev"));
@@ -19,7 +20,7 @@ app.get("/dictionaries", async (req, res) => {
 });
 
 app.get("/solve", async (req, res) => {
-  const { challenge, dictionaries } = req.query;
+  const { challenge, dictionaries, path } = req.query;
 
   if (
     !challenge ||
@@ -40,7 +41,10 @@ app.get("/solve", async (req, res) => {
 
   const words = mergeDictionaries(selectedDictionaries);
 
-  const result = solveForList(challengeFromString(challenge), words);
+  const result = (path === "true" ? solveForListWithPath : solveForList)(
+    challengeFromString(challenge),
+    words
+  );
 
   res.send(result);
 });

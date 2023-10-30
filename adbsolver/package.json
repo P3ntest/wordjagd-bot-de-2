@@ -1,0 +1,15 @@
+{
+  "name": "adbsolver",
+  "module": "adbSolver.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "bun-promptx": "^0.2.0",
+    "inquirer": "^9.2.11"
+  }
+}
