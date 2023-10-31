@@ -53,7 +53,7 @@ async function pattern(points: number[][]) {
   points = points.map(([x, y]) => [x * step + startX, y * step + startY]);
 
   //   const totalLength = 600 - (10 - points.length) * 15;
-  const totalLength = points.length * 70;
+  const totalLength = points.length * 60 + 100;
 
   const stepLength = Math.floor(totalLength / points.length);
 
